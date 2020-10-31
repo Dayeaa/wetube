@@ -1,0 +1,46 @@
+const path = require("path");//절대경로를만들어준다.
+const autoprefixer = require("autoprefixer");
+const ExtractCSS = require("extract-text-webpack-plugin");
+
+const MODE = process.env.WEBPACK_ENV;
+const ETNRY_FILE = path.resolve(__dirname,"assets","js","main.js"); // static 폴더를 만들어서 해당 파일을 넣는다. 
+const OUTPUT_DIR = path.join(__dirname, "static");
+
+//entry (어느 파일을 받아서) / output (어디로 보낼 것인지) 으로 나눈다
+// webpack은 config파일에서는 아래->위 실행
+// extract하는 것부터 쓰고, css파일 이해부분, sass파일 다루는 부분을 순서대로 적는다.(실행은 반대의 순서)
+const config = {
+    entry: ETNRY_FILE,
+    mode: MODE,
+    module:{
+        rules:[
+            {
+                test: /\.(scss)$/,
+                use: ExtractCSS.extract([
+                    {
+                        loader: "css-loader" //webpack이 css를 이해할 수 있도록 가르쳐 줌
+                    },
+                    {
+                        loader :"postcss-loader", //호환성 부여
+                        options: {
+                            plugins(){
+                                return [autoprefixer({browsers: "cover 99.5%"})]; //시중에 있는 코드와 99.5% 호환되게 해줌
+                            }
+                        }                                     
+                    },
+                    {
+                        loader:"sass-loader"
+                    }
+                    
+                ])
+            }
+        ]
+    },
+    output:{
+        path : OUTPUT_DIR,
+        filename : "[name].js"
+    },
+    plugins: [new ExtractCSS("styles.css")]
+};
+
+module.exports = config;

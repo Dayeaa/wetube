@@ -1,0 +1,47 @@
+import "core-js";
+import express from "express";//위와 동일 but 간단
+import morgan from "morgan";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+
+//const express = require('express'); //node_moduels의 express를 호출
+
+const app = express(); //실행해서 app을 생성
+const port = 4000;
+
+
+const handlelistening = () => 
+console.log(`listening on : http://localhost:${port}`);
+
+
+function handleHome(req, res){
+    //req -> 누가 페이지를 요청, 어떤 종류이 데이터가 전송 등 정보를 얻고자 할 때 등
+    //예를들어 아이디 혹은 비밀번호
+    //console.log(req);
+    res.send('Hello from 후추네집~~!!');
+    //console.log('Hi from home');
+}
+
+//function handleProfile(req,res){
+//    res.send("You ARE MY PROFILE")
+//}
+const handleProfile = (req,res) => res.send("You are my profile");
+
+// const betweenHome = (req,res,next) =>{
+//     console.log("Between");
+//     next();
+// };
+//app.use(betweenHome);
+
+const midware = (req,res,next) => {
+    res.send("not happening");
+}
+
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(morgan("dev"));
+app.get("/",midware, handleHome);
+app.get("/profile", handleProfile);
+app.listen(port, handlelistening ); //app에게 port를 listen하라고 명령, listening 할 때 handlelisteining 함수 호출
