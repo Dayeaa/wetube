@@ -120,4 +120,4 @@ package-lock.json
 package.json
 static/main.js
 #upload 파일
-uploads/
+uploads/videos
