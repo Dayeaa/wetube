@@ -27,5 +27,5 @@ export const onlyPrivate = (req, res, next) =>{
 }
 
 export const uploadVideo = multerVideo.single('videoFile');
-//single은 오직 하나의 파일만 upload 할 수 있음을 의미
+//single은g 오직 하나의 파일만 upload 할 수 있음을 의미
 //upload.pug에서의 name=videoFile
