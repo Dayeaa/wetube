@@ -121,3 +121,5 @@ package.json
 static/main.js
 #upload 파일
 uploads/videos
+
+bfg-1.13.0.jar
