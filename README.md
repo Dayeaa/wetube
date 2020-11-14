@@ -10,7 +10,7 @@ Cloning Youtube with Vanilla and NodeGIT
 - [ ] Edit Profile
 - [ ] Change Password
 - [ ] Upload
-- [ ] Video Detail
-- [ ] Edit Video
+- [x] Video Detail
+- [x] Edit Video
 
 
