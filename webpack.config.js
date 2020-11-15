@@ -9,54 +9,52 @@ const ENTRY_FILE = path.resolve(__dirname, "assets", "js", "main.js");
 const OUTPUT_DIR = path.resolve(__dirname, "static");
 
 const config = {
-    entry: ["@babel/polyfill", ENTRY_FILE],
+    entry: ENTRY_FILE,
     mode: MODE,
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(scss)$/,
                 use: [
                     {
-                        loader :'babel-loader'
-                    }
-                ]
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    {
-                        loader: MiniExtractCSS.loader,
-                        options: {
-                            hmr: process.env.WEBPACK_ENV === "development",
-                        },
+                        loader: MiniExtractCSS.loader
                     },
-                    "css-loader",
+                    {
+                        loader: "css-loader"
+                    },
                     {
                         loader: "postcss-loader",
                         options: {
-                            plugins() {
-                                return [
-                                    autoprefixer({
-                                        overrideBrowserslist: "cover 99.5%"})
-                                ];
-                            },
-                        },
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        'autoprefixer',
+                                        {
+                                            browsers: "cover 99.5%"
+                                        },
+                                    ]
+                                ]
+                            }
+                        }
                     },
-
-                    "sass-loader",
-                ],
-            },
-        ],
+                    {
+                        loader: "sass-loader"
+                    }
+                ]
+            }
+        ]
     },
     output: {
         path: OUTPUT_DIR,
-        filename: "[name].js",
+        filename: "[name].js"
     },
     plugins: [
         new MiniExtractCSS({
-            filename: "styles.css",
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: '[name].css'
         }),
-    ],
+    ]
 };
 
 module.exports = config;
